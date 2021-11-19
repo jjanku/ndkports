@@ -63,6 +63,7 @@ abstract class PrefabTask : DefaultTask() {
     }
 
     private fun extract(aar: File, extractDir: File) {
+        extractDir.mkdirs()
         ZipFile(aar).use { zip ->
             zip.entries().asSequence().forEach { entry ->
                 zip.getInputStream(entry).use { input ->
