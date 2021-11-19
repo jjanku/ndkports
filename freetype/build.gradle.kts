@@ -8,6 +8,7 @@ group = "com.android.ndk.thirdparty"
 version = "$portVersion${rootProject.extra.get("snapshotSuffix")}"
 
 plugins {
+    id("maven-publish")
     id("com.android.ndkports.NdkPorts")
 }
 
@@ -29,5 +30,23 @@ tasks.prefabPackage {
 
     modules {
         create("freetype")
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["prefab"])
+            pom {
+                name.set("freetype")
+                description.set("The ndkports AAR for freetype.")
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url = uri("${rootProject.buildDir}/repository")
+        }
     }
 }
