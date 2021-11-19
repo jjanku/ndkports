@@ -5,6 +5,7 @@
 /googletest/build/
 /jsoncpp/build/
 /openssl/build/
+/freetype/build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
