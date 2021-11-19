@@ -93,12 +93,20 @@ class PrefabPackageBuilder(
     }
 
     private fun makeModuleMetadata(module: ModuleDescription, moduleDirectory: File) {
-        moduleDirectory.resolve("module.json").writeText(
-            Json.encodeToString(
+        var json = Json.encodeToString(
                 ModuleMetadataV1(
                     exportLibraries = module.dependencies
                 )
-            )
+        )
+        if (json == "{}") {
+            json = """{"export_libraries":[]}"""
+        } else {
+            json = json.dropLast(1)
+            json += """"android":{"export_libraries":null,"library_name":null}}"""
+        }
+
+        moduleDirectory.resolve("module.json").writeText(
+             json
         )
     }
 
