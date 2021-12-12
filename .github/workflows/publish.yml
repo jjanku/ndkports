@@ -1,0 +1,24 @@
+name: Publish AARs
+on: [push]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
+      - name: Publish AARs
+        run: |
+          ./gradlew -PndkPath=$ANDROID_NDK_HOME freetype:publishAllPublicationsToGitHubPackagesRepository
+          ./gradlew -PndkPath=$ANDROID_NDK_HOME podofo:publishAllPublicationsToGitHubPackagesRepository
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

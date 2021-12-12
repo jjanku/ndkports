@@ -46,6 +46,14 @@ publishing {
 
     repositories {
         maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/jjanku/ndkports")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+        maven {
             url = uri("${rootProject.buildDir}/repository")
         }
     }
